@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Gestor de proyectos y servicios con cotizador web.">
+  <title>Gestor de Proyectos y Cotizador</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <div class="layout">
+
+    <!-- Barra lateral -->
+    <aside class="sidebar">
+      <h1 class="brand">Work<span>Desk</span></h1>
+      <nav aria-label="Navegación principal">
+        <ul class="nav">
+          <li><button class="nav__link is-active" data-view="dashboard">Resumen</button></li>
+          <li><button class="nav__link" data-view="clients">Clientes</button></li>
+          <li><button class="nav__link" data-view="orders">Órdenes</button></li>
+          <li><button class="nav__link" data-view="quote">Cotizador</button></li>
+        </ul>
+      </nav>
+    </aside>
+
+    <main class="main">
+
+      <!-- Resumen -->
+      <section id="view-dashboard" class="view" aria-labelledby="t-dashboard">
+        <header class="view__header"><h2 id="t-dashboard">Resumen</h2></header>
+        <div class="stats">
+          <article class="card stat"><p class="stat__label">Clientes</p><p class="stat__value" id="stat-clients">0</p></article>
+          <article class="card stat"><p class="stat__label">Órdenes activas</p><p class="stat__value" id="stat-active">0</p></article>
+          <article class="card stat"><p class="stat__label">Completadas</p><p class="stat__value" id="stat-done">0</p></article>
+          <article class="card stat"><p class="stat__label">Ingresos (completadas)</p><p class="stat__value" id="stat-revenue">$ 0</p></article>
+        </div>
+      </section>
+
+      <!-- Clientes -->
+      <section id="view-clients" class="view" aria-labelledby="t-clients" hidden>
+        <header class="view__header"><h2 id="t-clients">Clientes</h2></header>
+        <div class="grid-2">
+          <form id="client-form" class="card form">
+            <h3>Nuevo cliente</h3>
+            <label>Nombre <input name="name" required></label>
+            <label>Email <input name="email" type="email" required></label>
+            <label>Teléfono <input name="phone" type="tel"></label>
+            <button class="btn" type="submit">Agregar cliente</button>
+          </form>
+          <div class="card">
+            <h3>Listado</h3>
+            <ul id="client-list" class="list"></ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Órdenes -->
+      <section id="view-orders" class="view" aria-labelledby="t-orders" hidden>
+        <header class="view__header">
+          <h2 id="t-orders">Órdenes de trabajo</h2>
+          <select id="order-filter" aria-label="Filtrar por estado">
+            <option value="all">Todos los estados</option>
+            <option value="pending">Pendiente</option>
+            <option value="progress">En progreso</option>
+            <option value="done">Completada</option>
+          </select>
+        </header>
+        <div class="card table-wrap">
+          <table>
+            <thead>
+              <tr><th>#</th><th>Servicio</th><th>Cliente</th><th>Total</th><th>Estado</th><th></th></tr>
+            </thead>
+            <tbody id="order-body"></tbody>
+          </table>
+          <p id="order-empty" class="empty" hidden>No hay órdenes. Crea una desde el Cotizador.</p>
+        </div>
+      </section>
+
+      <!-- Cotizador -->
+      <section id="view-quote" class="view" aria-labelledby="t-quote" hidden>
+        <header class="view__header"><h2 id="t-quote">Cotizador</h2></header>
+        <div class="grid-2">
+          <form id="quote-form" class="card form">
+            <h3>Conceptos</h3>
+            <div id="quote-lines" class="lines"></div>
+            <button class="btn btn--ghost" type="button" id="add-line">+ Agregar concepto</button>
+            <div class="row">
+              <label>Descuento (%) <input type="number" id="q-discount" min="0" max="100" value="0"></label>
+              <label>IVA (%) <input type="number" id="q-tax" value="19" readonly></label>
+            </div>
+          </form>
+
+          <aside class="card form" aria-live="polite">
+            <h3>Presupuesto</h3>
+            <dl class="totals">
+              <div><dt>Subtotal</dt><dd id="q-subtotal">$0.00</dd></div>
+              <div><dt>Descuento</dt><dd id="q-discount-amt">-$0.00</dd></div>
+              <div><dt>IVA</dt><dd id="q-tax-amt">$0.00</dd></div>
+              <div class="totals__grand"><dt>Total</dt><dd id="q-total">$0.00</dd></div>
+            </dl>
+            <hr>
+            <form id="save-order-form" class="form">
+              <label>Título del servicio <input name="title" required></label>
+              <label>Cliente
+                <select name="clientId" id="order-client" required></select>
+              </label>
+              <button class="btn" type="submit">Guardar como orden</button>
+            </form>
+          </aside>
+        </div>
+      </section>
+
+    </main>
+  </div>
+</body>
+</html>
